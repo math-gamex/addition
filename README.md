@@ -3,7 +3,6 @@
 An interactive web-based **addition learning game** for young children (ages 4–7).  
 Kids can learn to add numbers visually with colorful blocks, sounds, and friendly feedback.
 
-![screenshot](./screenshot.png)
 
 ---
 
@@ -45,10 +44,3 @@ This game helps children:
 
 ---
 
-## 📦 Installation & Run
-
-Clone the repository:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/addition-game.git
-cd addition-game
