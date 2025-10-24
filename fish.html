@@ -6,19 +6,19 @@
 <title>Fish Catch Addition</title>
 <style>
   :root{
-    /* 크게 보기 위한 기본 스케일 업 */
     --bg:#eaf7ff;--fg:#0f2233;--border:#b9d9ff;
-    --aColor:#2b9cfb;--bColor:#ff6fa8;--ansColor:#6c7a89;
-    --fishSize:64px; /* 44 → 64 */
+    --aColor:#2b9cfb;     /* A 숫자 & A 물고기 색 */
+    --bColor:#ff6fa8;     /* B 숫자 & B 물고기 색 */
+    --ansColor:#6c7a89;
+    --fishSize:72px;
     --gap:12px;
-    --panelW:1280px; /* 960 → 1280 */
-    --tankH:200px;   /* 140 → 200 */
+    --panelW:1280px;
+    --tankH:200px;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;background:linear-gradient(#eaf7ff,#d3f1ff 45%,#c5ecff);
-    color:var(--fg);
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Arial,sans-serif;
+    color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Arial,sans-serif;
     display:flex;flex-direction:column;align-items:center;min-height:100vh;
   }
   header{
@@ -32,9 +32,7 @@
     padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:46px;
   }
   button.primary{background:#0f2233;color:#fff;border-color:#0f2233;}
-
   main{width:100%;max-width:var(--panelW);padding:10px 18px 24px;display:flex;flex-direction:column;gap:18px;}
-
   .topbar{
     border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;
     display:flex;flex-direction:column;gap:10px;
@@ -43,18 +41,15 @@
   .pill{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--border);font-weight:800;}
   .pill.mono{font-family:ui-monospace,monospace;}
   .prompt{font-weight:900;font-size:20px;}
-
   .quiz{
     border:1px solid var(--border);border-radius:16px;background:#ffffffcc;padding:18px;
     display:flex;flex-direction:column;gap:18px;backdrop-filter:saturate(1.2) blur(2px);
   }
-
   .groups{
     display:grid;
     grid-template-columns:1fr auto 1fr auto 1fr;
     grid-template-rows:auto auto auto;
-    gap:14px;
-    align-items:center;justify-items:center;
+    gap:14px;align-items:center;justify-items:center;
   }
   .numBig{
     font-weight:900;font-size:74px;line-height:1;width:220px;height:126px;text-align:center;
@@ -63,7 +58,7 @@
   .numA{color:var(--aColor);} .numB{color:var(--bColor);} .numAns{color:var(--ansColor);}
   .sign{font-size:56px;font-weight:900;padding:4px 8px;}
 
-  /* 어항(탱크) */
+  /* 어항 */
   .aquarium{
     position:relative;height:var(--tankH); width:100%; max-width:520px;
     border-radius:16px; overflow:hidden;
@@ -81,13 +76,11 @@
     position:absolute;left:12px;top:12px;font-weight:800;font-size:15px;
     background:#ffffffcc;border:1px solid var(--border);padding:6px 10px;border-radius:999px;
   }
-
-  /* 답 영역(그물 → 어항 느낌으로 변경) */
+  /* 답 어항 */
   .net{
     min-height:var(--tankH); width:100%; max-width:520px; padding:12px;
     display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;
-    border-radius:16px; 
-    border:2px solid #9ed8ff;
+    border-radius:16px; border:2px solid #9ed8ff;
     background:
       radial-gradient(240px 80px at 20% 0%, #ffffffaa 0%, transparent 70%) no-repeat,
       linear-gradient(#dfe7ee,#eaf3ff 60%, #e1f1ff);
@@ -99,26 +92,29 @@
     background:repeating-linear-gradient(90deg, #ffffffaa 0 12px, #ffffff66 12px 24px);
     opacity:.35;pointer-events:none;
   }
-  .net .label{
-    left:auto; right:12px; top:12px;
-  }
+  .net .label{ left:auto; right:12px; top:12px; }
   .net.dropHint{outline:3px dashed #7b8a97; outline-offset:-6px;}
 
-  /* 물고기 */
+  /* 물고기 (숫자 색상과 "정확히" 일치하도록 컬러 디스크 추가) */
   .fish{
     position:absolute; width:var(--fishSize); height:var(--fishSize);
     display:flex; align-items:center; justify-content:center;
-    font-size:44px; line-height:1; user-select:none; cursor:pointer;
+    font-size:52px; line-height:1; user-select:none; cursor:pointer;
     filter: drop-shadow(0 2px 0 rgba(0,0,0,.08));
-    transition:transform .08s ease, opacity .2s ease;
+    transition:transform .08s ease, opacity .2s ease, width .12s ease, height .12s ease, font-size .12s ease;
     touch-action:manipulation;
   }
-  .fish:active{transform:scale(.92);}
-  .fishA{--tint: var(--aColor);}
-  .fishB{--tint: var(--bColor);}
-  .fish::before{content:"🐟";}
-  .tintA::before{filter:hue-rotate(180deg) saturate(1.1);}
-  .tintB::before{filter:hue-rotate(320deg) saturate(1.1);}
+  .fish:active{transform:scale(1.12);}
+  .fish .icon{position:relative;z-index:1}
+  .fish::after{
+    content:""; position:absolute; inset:4px; border-radius:50%;
+    background: radial-gradient( circle at 35% 35%, #fff 0 22%, var(--tint) 22% 100%);
+    opacity:.28; box-shadow: inset 0 0 0 3px var(--tint);
+  }
+  /* A/B 틴트 – 숫자 색과 1:1 매칭 */
+  .fishA{ --tint: var(--aColor); }
+  .fishB{ --tint: var(--bColor); }
+
   .swim{
     animation:
       swimX var(--dur,8s) linear infinite alternate,
@@ -135,22 +131,22 @@
     50%{ transform: translateY(3px) }
   }
 
-  /* 잡힌 물고기는 더 크게 */
+  /* 잡힌 물고기 더 크게 */
   .caught{
-    position:relative; width:76px; height:76px; font-size:52px;
+    position:relative;
+    width:100px; height:100px; font-size:68px;
     animation:none; transform:scale(1) !important;
   }
-  .counter{font-weight:800;font-size:16px;color:#244257;}
 
+  .counter{font-weight:800;font-size:16px;color:#244257;}
   .sparkle{position:fixed;width:10px;height:10px;pointer-events:none;border-radius:50%;
     background:radial-gradient(circle,#fff,transparent);animation:sparkle .7s ease-out forwards;}
   @keyframes sparkle{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(0.2);opacity:0;}}
-
   footer{padding:16px;color:#244257;font-size:14px;text-align:center;}
 
-  /* 반응형: 작은 기기에서는 살짝 축소 */
   @media (max-width: 768px){
-    :root{ --panelW: 100vw; --fishSize:56px; --tankH:170px; }
+    :root{ --panelW: 100vw; --fishSize:64px; --tankH:170px; }
+    .caught{ width:92px;height:92px;font-size:62px; }
     .numBig{ font-size:56px; width:180px; height:110px; }
     .sign{ font-size:44px; }
   }
@@ -184,7 +180,7 @@
       <span class="pill">Target: <strong id="targetLabel">—</strong></span>
       <span class="pill mono" id="eqPill">0 + 0 = ?</span>
     </div>
-    <span class="prompt">Tap a fish to catch it in the net!</span>
+    <span class="prompt">Tap a fish to catch it in the tank!</span>
   </div>
 
   <div class="quiz">
@@ -238,15 +234,86 @@ const numAEl=document.getElementById('numA'),
       countAns=document.getElementById('countAns');
 
 let audioCtx=null;
-function ensureAudio(){if(!audioCtx){const AC=window.AudioContext||window.webkitAudioContext;audioCtx=AC?new AC():null;}}
-function winSound(){ensureAudio();if(!audioCtx)return;
+function ensureAudio(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; audioCtx=AC?new AC():null; }}
+
+/* 🎵 잡기 사운드: 3가지 중 랜덤 + 스테레오 팬 + 짧은 딜레이 */
+function catchSound(){
+  ensureAudio(); if(!audioCtx) return;
+  const now=audioCtx.currentTime, v=Math.random();
+  const pan=audioCtx.createStereoPanner?audioCtx.createStereoPanner():null;
+  const delay=audioCtx.createDelay?audioCtx.createDelay(0.25):null;
+  const fb=audioCtx.createGain?audioCtx.createGain():null;
+  if(pan) pan.pan.value=(Math.random()*2-1)*0.6;        // -0.6~0.6
+  if(delay) delay.delayTime.value=0.07+Math.random()*0.03; // 70~100ms slap
+  if(fb){ fb.gain.value=0.18; delay.connect(fb); fb.connect(delay); }
+
+  const mix=audioCtx.createGain(); mix.gain.value=1.0;
+  const dest = (pan?pan:mix);
+  (pan?mix.connect(pan):mix).connect(audioCtx.destination);
+  if(delay){ mix.connect(delay); delay.connect((pan?pan:mix)); }
+
+  if(v<0.34){         // Variant 1: 팝 + 버블 글리산도
+    const noiseBuf=audioCtx.createBuffer(1, audioCtx.sampleRate*0.05, audioCtx.sampleRate);
+    const data=noiseBuf.getChannelData(0); for(let i=0;i<data.length;i++){ data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2); }
+    const nsrc=audioCtx.createBufferSource(); nsrc.buffer=noiseBuf;
+    const nGain=audioCtx.createGain(); nGain.gain.setValueAtTime(0.12, now); nGain.gain.exponentialRampToValueAtTime(0.0001, now+0.05);
+    nsrc.connect(nGain).connect(mix); nsrc.start(now);
+    const o=audioCtx.createOscillator(); o.type='sine';
+    const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.22, now+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+0.18);
+    const startF=randInt(320,420), endF=startF*1.9;
+    o.frequency.setValueAtTime(startF, now); o.frequency.exponentialRampToValueAtTime(endF, now+0.16);
+    o.connect(g).connect(mix); o.start(now); o.stop(now+0.2);
+  }else if(v<0.67){   // Variant 2: 방울 두 알 '뽁뽁'
+    const o1=audioCtx.createOscillator(), g1=audioCtx.createGain();
+    o1.type='triangle'; o1.frequency.setValueAtTime(randInt(500,650), now);
+    g1.gain.setValueAtTime(0.0001, now); g1.gain.exponentialRampToValueAtTime(0.22, now+0.02);
+    g1.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
+    o1.connect(g1).connect(mix); o1.start(now); o1.stop(now+0.14);
+
+    const t2=now+0.08;
+    const o2=audioCtx.createOscillator(), g2=audioCtx.createGain();
+    o2.type='sine'; o2.frequency.setValueAtTime(randInt(700,900), t2);
+    g2.gain.setValueAtTime(0.0001, t2); g2.gain.exponentialRampToValueAtTime(0.18, t2+0.02);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t2+0.12);
+    o2.connect(g2).connect(mix); o2.start(t2); o2.stop(t2+0.14);
+  }else{              // Variant 3: 워터드롭 (밴드패스 + 피치 다운)
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    const bp=audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=800; bp.Q.value=6;
+    o.type='sine';
+    const f0=1000; o.frequency.setValueAtTime(f0, now);
+    o.frequency.exponentialRampToValueAtTime(360, now+0.22);
+    g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(0.26, now+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+0.22);
+    o.connect(bp).connect(g).connect(mix); o.start(now); o.stop(now+0.24);
+  }
+}
+
+/* 되돌릴 때 가벼운 휙 */
+function whooshSound(){
+  ensureAudio(); if(!audioCtx) return;
+  const now=audioCtx.currentTime;
+  const o=audioCtx.createOscillator(); o.type='triangle';
+  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.12, now+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, now+0.16);
+  o.frequency.setValueAtTime(700, now);
+  o.frequency.exponentialRampToValueAtTime(300, now+0.12);
+  o.connect(g).connect(audioCtx.destination);
+  o.start(now); o.stop(now+0.18);
+}
+
+/* 축하음 */
+function winSound(){
+  ensureAudio(); if(!audioCtx) return;
   const notes=[523,659,784,1046],now=audioCtx.currentTime;
   notes.forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();
     o.type='triangle';o.frequency.value=f;
     const t=now+i*0.09;g.gain.setValueAtTime(0.0001,t);
     g.gain.exponentialRampToValueAtTime(0.25,t+0.02);
     g.gain.exponentialRampToValueAtTime(0.0001,t+0.08);
-    o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+0.12);
+    o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+0.12);
   });
 }
 
@@ -271,22 +338,27 @@ function speakQuestion(a,b){
 }
 
 let maxN=10,make10=false,level=1,A=0,B=0,S=0;
-
 function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 function rand(min,max){return Math.random()*(max-min)+min;}
 
+/* 숫자-색 일치: A 연못=--aColor, B 연못=--bColor */
 function buildFish(tank,n,origin){
   tank.querySelectorAll('.fish').forEach(f=>f.remove());
-  const cap=Math.max(0,Math.min(30,n)); /* 최대치 살짝 상향 */
+  const cap=Math.max(0,Math.min(30,n));
   for(let i=0;i<cap;i++){
     const d=document.createElement('div');
-    d.className=`fish swim ${origin==='A'?'fishA tintA':'fishB tintB'}`;
+    d.className=`fish swim ${origin==='A'?'fishA':'fishB'}`;
     d.dataset.origin=origin;
     d.dataset.in=origin;
     d.tabIndex=0;
     d.style.top = `${rand(12, 86)}%`;
     d.style.setProperty('--dur', `${rand(6, 12).toFixed(1)}s`);
     d.style.animationDelay = `${(-1*rand(0,6)).toFixed(2)}s`;
+
+    const span=document.createElement('span');
+    span.className='icon'; span.textContent='🐟';
+    d.appendChild(span);
+
     d.addEventListener('click',()=>toggleMove(d));
     tank.appendChild(d);
   }
@@ -303,9 +375,9 @@ function newProblem(){
   }
   numAEl.textContent=A;numBEl.textContent=B;answerNum.textContent='?';
   eqPill.textContent=`${A}+${B}=?`;
-  buildFish(tankA,A,'A');
-  buildFish(tankB,B,'B');
-  net.innerHTML='<span class="label">Answer Tank</span>'; /* 라벨 유지 */
+  buildFish(tankA,A,'A');  // A 색
+  buildFish(tankB,B,'B');  // B 색
+  net.innerHTML='<span class="label">Answer Tank</span>';
   updateCounters();
   speakQuestion(A,B);
 }
@@ -313,6 +385,7 @@ function newProblem(){
 function toggleMove(node){
   const inNet = node.parentElement===net;
   if(inNet){
+    whooshSound();
     const origin=node.dataset.origin==='A'?tankA:tankB;
     node.classList.remove('caught'); node.classList.add('swim');
     origin.appendChild(node);
@@ -320,6 +393,7 @@ function toggleMove(node){
     node.style.top = `${rand(12,86)}%`;
     node.style.setProperty('--dur', `${rand(6,12).toFixed(1)}s`);
   }else{
+    catchSound();
     node.classList.remove('swim'); node.classList.add('caught');
     node.style.top = ''; node.style.left = '';
     net.appendChild(node);
@@ -345,9 +419,8 @@ function checkSolved(){
     if(!solved){
       solved=true;
       celebrate();
-      /* ✅ 정답 후 3초 대기 후 다음 문제 */
       clearTimeout(solveTimer);
-      solveTimer = setTimeout(()=>{solved=false; newProblem();}, 3000);
+      solveTimer = setTimeout(()=>{solved=false; newProblem();}, 3000); // 3초 뒤 다음 문제
     }
   }else{
     solved=false;
@@ -379,6 +452,7 @@ voiceBtn.addEventListener('click',()=>{
 });
 document.addEventListener('click',function once(){ensureAudio();if(window.speechSynthesis){prepareVoices();}document.removeEventListener('click',once);});
 newProblem();
+
 })();
 </script>
 </body>
