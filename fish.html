@@ -7,145 +7,94 @@
 <style>
   :root{
     --bg:#eaf7ff;--fg:#0f2233;--border:#b9d9ff;
-    --aColor:#2b9cfb;     /* A 숫자 & A 물고기 색 */
-    --bColor:#ff6fa8;     /* B 숫자 & B 물고기 색 */
-    --ansColor:#6c7a89;
-    --fishSize:72px;
-    --gap:12px;
-    --panelW:1280px;
-    --tankH:200px;
+    --aColor:#2b9cfb;--bColor:#ff6fa8;--ansColor:#6c7a89;
+    --fishSize:72px; --panelW:1280px; --tankH:200px;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;background:linear-gradient(#eaf7ff,#d3f1ff 45%,#c5ecff);
+  body{margin:0;background:linear-gradient(#eaf7ff,#d3f1ff 45%,#c5ecff);
     color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans,Arial,sans-serif;
-    display:flex;flex-direction:column;align-items:center;min-height:100vh;
-  }
-  header{
-    width:100%;max-width:var(--panelW);padding:16px 18px;display:flex;gap:12px;flex-wrap:wrap;
-    align-items:center;justify-content:space-between;
-  }
+    display:flex;flex-direction:column;align-items:center;min-height:100vh;}
+  header{width:100%;max-width:var(--panelW);padding:16px 18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
   h1{margin:0;font-size:26px;font-weight:900;}
   .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-  button,select,label{
-    border:1px solid var(--border);background:#fff;color:#0f2233;border-radius:12px;
-    padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:46px;
-  }
+  button,select,label{border:1px solid var(--border);background:#fff;color:#0f2233;border-radius:12px;
+    padding:12px 16px;font-size:16px;font-weight:700;cursor:pointer;min-height:46px;}
   button.primary{background:#0f2233;color:#fff;border-color:#0f2233;}
   main{width:100%;max-width:var(--panelW);padding:10px 18px 24px;display:flex;flex-direction:column;gap:18px;}
-  .topbar{
-    border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;
-    display:flex;flex-direction:column;gap:10px;
-  }
+  .topbar{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;display:flex;flex-direction:column;gap:10px;}
   .status{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
   .pill{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--border);font-weight:800;}
   .pill.mono{font-family:ui-monospace,monospace;}
   .prompt{font-weight:900;font-size:20px;}
-  .quiz{
-    border:1px solid var(--border);border-radius:16px;background:#ffffffcc;padding:18px;
-    display:flex;flex-direction:column;gap:18px;backdrop-filter:saturate(1.2) blur(2px);
-  }
-  .groups{
-    display:grid;
-    grid-template-columns:1fr auto 1fr auto 1fr;
-    grid-template-rows:auto auto auto;
-    gap:14px;align-items:center;justify-items:center;
-  }
-  .numBig{
-    font-weight:900;font-size:74px;line-height:1;width:220px;height:126px;text-align:center;
-    padding:12px;border-radius:16px;border:3px solid currentColor;background:#fff;
-  }
+  .quiz{border:1px solid var(--border);border-radius:16px;background:#ffffffcc;padding:18px;display:flex;flex-direction:column;gap:18px;backdrop-filter:saturate(1.2) blur(2px);}
+  .groups{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;grid-template-rows:auto auto auto;gap:14px;align-items:center;justify-items:center;}
+  .numBig{font-weight:900;font-size:74px;line-height:1;width:220px;height:126px;text-align:center;padding:12px;border-radius:16px;border:3px solid currentColor;background:#fff;}
   .numA{color:var(--aColor);} .numB{color:var(--bColor);} .numAns{color:var(--ansColor);}
   .sign{font-size:56px;font-weight:900;padding:4px 8px;}
 
-  /* 어항 */
+  /* 일반 어항(좌/우) */
   .aquarium{
-    position:relative;height:var(--tankH); width:100%; max-width:520px;
-    border-radius:16px; overflow:hidden;
-    background:
-      radial-gradient(240px 80px at 20% 0%, #ffffffaa 0%, transparent 70%) no-repeat,
-      linear-gradient(#b8ecff,#a3e6ff 60%, #93e0ff);
-    border:2px solid #9ed8ff; box-shadow:inset 0 0 0 2px #ffffff55;
+    position:relative;height:var(--tankH);width:100%;max-width:520px;border-radius:16px;overflow:hidden;
+    background:radial-gradient(240px 80px at 20% 0%,#ffffffaa 0%,transparent 70%) no-repeat, linear-gradient(#b8ecff,#a3e6ff 60%,#93e0ff);
+    border:2px solid #9ed8ff;box-shadow:inset 0 0 0 2px #ffffff55;
   }
-  .aquarium::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:12px;
-    background:repeating-linear-gradient(90deg, #ffffffaa 0 12px, #ffffff66 12px 24px);
-    opacity:.4;pointer-events:none;
-  }
-  .label{
-    position:absolute;left:12px;top:12px;font-weight:800;font-size:15px;
-    background:#ffffffcc;border:1px solid var(--border);padding:6px 10px;border-radius:999px;
-  }
-  /* 답 어항 */
+  .aquarium::after{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(90deg,#ffffffaa 0 12px,#ffffff66 12px 24px);opacity:.4;pointer-events:none;}
+  .label{position:absolute;left:12px;top:12px;font-weight:800;font-size:15px;background:#ffffffcc;border:1px solid var(--border);padding:6px 10px;border-radius:999px;}
+
+  /* ✅ 답 어항: Grid로 반듯하게 정렬 */
   .net{
-    min-height:var(--tankH); width:100%; max-width:520px; padding:12px;
-    display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;
-    border-radius:16px; border:2px solid #9ed8ff;
-    background:
-      radial-gradient(240px 80px at 20% 0%, #ffffffaa 0%, transparent 70%) no-repeat,
-      linear-gradient(#dfe7ee,#eaf3ff 60%, #e1f1ff);
-    box-shadow:inset 0 0 0 2px #ffffff55;
-    position:relative; overflow:hidden;
+    min-height:var(--tankH);width:100%;max-width:520px;padding:12px;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    grid-auto-rows: 92px;
+    gap: 12px;
+    place-items:center;
+    border-radius:16px;border:2px solid #9ed8ff;
+    background:radial-gradient(240px 80px at 20% 0%,#ffffffaa 0%,transparent 70%) no-repeat, linear-gradient(#dfe7ee,#eaf3ff 60%,#e1f1ff);
+    box-shadow:inset 0 0 0 2px #ffffff55;position:relative;overflow:hidden;
   }
-  .net::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:12px;
-    background:repeating-linear-gradient(90deg, #ffffffaa 0 12px, #ffffff66 12px 24px);
-    opacity:.35;pointer-events:none;
-  }
-  .net .label{ left:auto; right:12px; top:12px; }
+  .net::after{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(90deg,#ffffffaa 0 12px,#ffffff66 12px 24px);opacity:.35;pointer-events:none;}
+  .net .label{left:auto;right:12px;top:12px;}
   .net.dropHint{outline:3px dashed #7b8a97; outline-offset:-6px;}
 
-  /* 물고기 (숫자 색상과 "정확히" 일치하도록 컬러 디스크 추가) */
+  /* 물고기(연못에서: 절대배치+수영 / 답어항에 들어오면: 정적배치로 전환) */
   .fish{
-    position:absolute; width:var(--fishSize); height:var(--fishSize);
-    display:flex; align-items:center; justify-content:center;
-    font-size:52px; line-height:1; user-select:none; cursor:pointer;
-    filter: drop-shadow(0 2px 0 rgba(0,0,0,.08));
-    transition:transform .08s ease, opacity .2s ease, width .12s ease, height .12s ease, font-size .12s ease;
+    position:absolute;width:var(--fishSize);height:var(--fishSize);
+    display:flex;align-items:center;justify-content:center;
+    font-size:52px;line-height:1;user-select:none;cursor:pointer;
+    filter:drop-shadow(0 2px 0 rgba(0,0,0,.08));
+    transition:transform .08s ease, width .12s ease, height .12s ease, font-size .12s ease;
     touch-action:manipulation;
   }
   .fish:active{transform:scale(1.12);}
   .fish .icon{position:relative;z-index:1}
   .fish::after{
-    content:""; position:absolute; inset:4px; border-radius:50%;
-    background: radial-gradient( circle at 35% 35%, #fff 0 22%, var(--tint) 22% 100%);
-    opacity:.28; box-shadow: inset 0 0 0 3px var(--tint);
+    content:"";position:absolute;inset:4px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #fff 0 22%, var(--tint) 22% 100%);
+    opacity:.28;box-shadow:inset 0 0 0 3px var(--tint);
   }
-  /* A/B 틴트 – 숫자 색과 1:1 매칭 */
   .fishA{ --tint: var(--aColor); }
   .fishB{ --tint: var(--bColor); }
 
-  .swim{
-    animation:
-      swimX var(--dur,8s) linear infinite alternate,
-      bob 3.6s ease-in-out infinite;
-  }
-  @keyframes swimX{
-    0%  { left: 2%; transform:translateY(0) scaleX(1); }
-    49% { transform:translateY(0) scaleX(1); }
-    50% { transform:translateY(0) scaleX(-1); }
-    100%{ left: calc(100% - var(--fishSize) - 2%); transform:translateY(0) scaleX(-1); }
-  }
-  @keyframes bob{
-    0%,100%{ transform: translateY(-2px); }
-    50%{ transform: translateY(3px) }
-  }
+  .swim{animation:swimX var(--dur,8s) linear infinite alternate, bob 3.6s ease-in-out infinite;}
+  @keyframes swimX{0%{left:2%;transform:translateY(0) scaleX(1);}49%{transform:translateY(0) scaleX(1);}50%{transform:translateY(0) scaleX(-1);}100%{left:calc(100% - var(--fishSize) - 2%);transform:translateY(0) scaleX(-1);}}
+  @keyframes bob{0%,100%{transform:translateY(-2px);}50%{transform:translateY(3px)}}
 
-  /* 잡힌 물고기 더 크게 */
+  /* ✅ 답 어항에 들어온 물고기: Grid 아이템이 되도록 정적 배치 + 더 크게 */
   .caught{
-    position:relative;
-    width:100px; height:100px; font-size:68px;
-    animation:none; transform:scale(1) !important;
+    position:static;   /* 핵심: static으로 바꿔 flex/grid 레이아웃에 참여 */
+    width:100px;height:100px;font-size:68px;
+    animation:none;transform:scale(1)!important;
   }
 
   .counter{font-weight:800;font-size:16px;color:#244257;}
-  .sparkle{position:fixed;width:10px;height:10px;pointer-events:none;border-radius:50%;
-    background:radial-gradient(circle,#fff,transparent);animation:sparkle .7s ease-out forwards;}
+  .sparkle{position:fixed;width:10px;height:10px;pointer-events:none;border-radius:50%;background:radial-gradient(circle,#fff,transparent);animation:sparkle .7s ease-out forwards;}
   @keyframes sparkle{0%{transform:translate(0,0) scale(1);opacity:1;}100%{transform:translate(var(--dx),var(--dy)) scale(0.2);opacity:0;}}
   footer{padding:16px;color:#244257;font-size:14px;text-align:center;}
 
   @media (max-width: 768px){
     :root{ --panelW: 100vw; --fishSize:64px; --tankH:170px; }
+    .net{ grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); grid-auto-rows:84px; }
     .caught{ width:92px;height:92px;font-size:62px; }
     .numBig{ font-size:56px; width:180px; height:110px; }
     .sign{ font-size:44px; }
@@ -169,14 +118,12 @@
     </select>
     <button id="make10Btn">Make 10</button>
     <button id="newBtn">🎲 New Problem</button>
-    <button id="voiceBtn" class="primary">🗣️ Voice On</button>
   </div>
 </header>
 
 <main>
   <div class="topbar">
     <div class="status">
-      <span class="pill" id="modePill">Mode: Fish</span>
       <span class="pill">Target: <strong id="targetLabel">—</strong></span>
       <span class="pill mono" id="eqPill">0 + 0 = ?</span>
     </div>
@@ -191,268 +138,238 @@
       <div class="sign">=</div>
       <div id="answerNum" class="numBig numAns">?</div>
 
-      <div id="tankA" class="aquarium">
-        <span class="label">Pond A</span>
-      </div>
+      <div id="tankA" class="aquarium"><span class="label">Pond A</span></div>
       <div></div>
-      <div id="tankB" class="aquarium">
-        <span class="label">Pond B</span>
-      </div>
+      <div id="tankB" class="aquarium"><span class="label">Pond B</span></div>
       <div></div>
-      <div id="net" class="net dropHint" aria-label="Answer Net">
-        <span class="label">Answer Tank</span>
-      </div>
+      <div id="net" class="net" aria-label="Answer Net"><span class="label">Answer Tank</span></div>
 
       <div id="countA" class="counter">A: 0 fish</div>
       <div></div>
       <div id="countB" class="counter">B: 0 fish</div>
       <div></div>
-      <div id="countAns" class="counter">Fish in net: 0</div>
+      <div id="countAns" class="counter">Fish in tank: 0</div>
     </div>
   </div>
 </main>
 
-<footer>Catching fish makes addition visual and fun!</footer>
+<footer>Fish Catch Addition</footer>
 
 <script>
 (()=> {
-const numAEl=document.getElementById('numA'),
-      numBEl=document.getElementById('numB'),
-      answerNum=document.getElementById('answerNum'),
-      tankA=document.getElementById('tankA'),
-      tankB=document.getElementById('tankB'),
-      net=document.getElementById('net'),
-      newBtn=document.getElementById('newBtn'),
-      make10Btn=document.getElementById('make10Btn'),
-      rangeSel=document.getElementById('rangeSel'),
-      levelSel=document.getElementById('levelSel'),
-      eqPill=document.getElementById('eqPill'),
-      targetLabel=document.getElementById('targetLabel'),
-      voiceBtn=document.getElementById('voiceBtn'),
-      countA=document.getElementById('countA'),
-      countB=document.getElementById('countB'),
-      countAns=document.getElementById('countAns');
+  const numAEl=document.getElementById('numA'),
+        numBEl=document.getElementById('numB'),
+        answerNum=document.getElementById('answerNum'),
+        tankA=document.getElementById('tankA'),
+        tankB=document.getElementById('tankB'),
+        net=document.getElementById('net'),
+        newBtn=document.getElementById('newBtn'),
+        make10Btn=document.getElementById('make10Btn'),
+        rangeSel=document.getElementById('rangeSel'),
+        levelSel=document.getElementById('levelSel'),
+        eqPill=document.getElementById('eqPill'),
+        targetLabel=document.getElementById('targetLabel'),
+        countA=document.getElementById('countA'),
+        countB=document.getElementById('countB'),
+        countAns=document.getElementById('countAns');
 
-let audioCtx=null;
-function ensureAudio(){ if(!audioCtx){ const AC=window.AudioContext||window.webkitAudioContext; audioCtx=AC?new AC():null; }}
+  let maxN=10,level=1,make10=false,A=0,B=0,S=0;
+  let audioCtx=null;
 
-/* 🎵 잡기 사운드: 3가지 중 랜덤 + 스테레오 팬 + 짧은 딜레이 */
-function catchSound(){
-  ensureAudio(); if(!audioCtx) return;
-  const now=audioCtx.currentTime, v=Math.random();
-  const pan=audioCtx.createStereoPanner?audioCtx.createStereoPanner():null;
-  const delay=audioCtx.createDelay?audioCtx.createDelay(0.25):null;
-  const fb=audioCtx.createGain?audioCtx.createGain():null;
-  if(pan) pan.pan.value=(Math.random()*2-1)*0.6;        // -0.6~0.6
-  if(delay) delay.delayTime.value=0.07+Math.random()*0.03; // 70~100ms slap
-  if(fb){ fb.gain.value=0.18; delay.connect(fb); fb.connect(delay); }
-
-  const mix=audioCtx.createGain(); mix.gain.value=1.0;
-  const dest = (pan?pan:mix);
-  (pan?mix.connect(pan):mix).connect(audioCtx.destination);
-  if(delay){ mix.connect(delay); delay.connect((pan?pan:mix)); }
-
-  if(v<0.34){         // Variant 1: 팝 + 버블 글리산도
-    const noiseBuf=audioCtx.createBuffer(1, audioCtx.sampleRate*0.05, audioCtx.sampleRate);
-    const data=noiseBuf.getChannelData(0); for(let i=0;i<data.length;i++){ data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2); }
-    const nsrc=audioCtx.createBufferSource(); nsrc.buffer=noiseBuf;
-    const nGain=audioCtx.createGain(); nGain.gain.setValueAtTime(0.12, now); nGain.gain.exponentialRampToValueAtTime(0.0001, now+0.05);
-    nsrc.connect(nGain).connect(mix); nsrc.start(now);
-    const o=audioCtx.createOscillator(); o.type='sine';
-    const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
-    g.gain.exponentialRampToValueAtTime(0.22, now+0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, now+0.18);
-    const startF=randInt(320,420), endF=startF*1.9;
-    o.frequency.setValueAtTime(startF, now); o.frequency.exponentialRampToValueAtTime(endF, now+0.16);
-    o.connect(g).connect(mix); o.start(now); o.stop(now+0.2);
-  }else if(v<0.67){   // Variant 2: 방울 두 알 '뽁뽁'
-    const o1=audioCtx.createOscillator(), g1=audioCtx.createGain();
-    o1.type='triangle'; o1.frequency.setValueAtTime(randInt(500,650), now);
-    g1.gain.setValueAtTime(0.0001, now); g1.gain.exponentialRampToValueAtTime(0.22, now+0.02);
-    g1.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
-    o1.connect(g1).connect(mix); o1.start(now); o1.stop(now+0.14);
-
-    const t2=now+0.08;
-    const o2=audioCtx.createOscillator(), g2=audioCtx.createGain();
-    o2.type='sine'; o2.frequency.setValueAtTime(randInt(700,900), t2);
-    g2.gain.setValueAtTime(0.0001, t2); g2.gain.exponentialRampToValueAtTime(0.18, t2+0.02);
-    g2.gain.exponentialRampToValueAtTime(0.0001, t2+0.12);
-    o2.connect(g2).connect(mix); o2.start(t2); o2.stop(t2+0.14);
-  }else{              // Variant 3: 워터드롭 (밴드패스 + 피치 다운)
-    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-    const bp=audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=800; bp.Q.value=6;
-    o.type='sine';
-    const f0=1000; o.frequency.setValueAtTime(f0, now);
-    o.frequency.exponentialRampToValueAtTime(360, now+0.22);
-    g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(0.26, now+0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001, now+0.22);
-    o.connect(bp).connect(g).connect(mix); o.start(now); o.stop(now+0.24);
-  }
-}
-
-/* 되돌릴 때 가벼운 휙 */
-function whooshSound(){
-  ensureAudio(); if(!audioCtx) return;
-  const now=audioCtx.currentTime;
-  const o=audioCtx.createOscillator(); o.type='triangle';
-  const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
-  g.gain.exponentialRampToValueAtTime(0.12, now+0.02);
-  g.gain.exponentialRampToValueAtTime(0.0001, now+0.16);
-  o.frequency.setValueAtTime(700, now);
-  o.frequency.exponentialRampToValueAtTime(300, now+0.12);
-  o.connect(g).connect(audioCtx.destination);
-  o.start(now); o.stop(now+0.18);
-}
-
-/* 축하음 */
-function winSound(){
-  ensureAudio(); if(!audioCtx) return;
-  const notes=[523,659,784,1046],now=audioCtx.currentTime;
-  notes.forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.type='triangle';o.frequency.value=f;
-    const t=now+i*0.09;g.gain.setValueAtTime(0.0001,t);
-    g.gain.exponentialRampToValueAtTime(0.25,t+0.02);
-    g.gain.exponentialRampToValueAtTime(0.0001,t+0.08);
-    o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+0.12);
-  });
-}
-
-let voiceOn=true,voiceEN=null;
-function pickEnVoice(){
-  const list=window.speechSynthesis?window.speechSynthesis.getVoices():[];
-  if(!list||!list.length)return null;
-  return list.find(v=>/^en(-|_)?US/i.test(v.lang))||list.find(v=>/^en/i.test(v.lang))||null;
-}
-function prepareVoices(){
-  voiceEN=pickEnVoice();
-  if(!voiceEN&&window.speechSynthesis){
-    window.speechSynthesis.addEventListener('voiceschanged',()=>{voiceEN=pickEnVoice();},{once:true});
-  }
-}
-function speakQuestion(a,b){
-  if(!voiceOn||!window.speechSynthesis)return;
-  const u=new SpeechSynthesisUtterance(`${a} plus ${b}. Catch the fish and move them to the tank.`);
-  u.lang='en-US';if(voiceEN)u.voice=voiceEN;
-  try{window.speechSynthesis.cancel();}catch(e){}
-  window.speechSynthesis.speak(u);
-}
-
-let maxN=10,make10=false,level=1,A=0,B=0,S=0;
-function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function rand(min,max){return Math.random()*(max-min)+min;}
-
-/* 숫자-색 일치: A 연못=--aColor, B 연못=--bColor */
-function buildFish(tank,n,origin){
-  tank.querySelectorAll('.fish').forEach(f=>f.remove());
-  const cap=Math.max(0,Math.min(30,n));
-  for(let i=0;i<cap;i++){
-    const d=document.createElement('div');
-    d.className=`fish swim ${origin==='A'?'fishA':'fishB'}`;
-    d.dataset.origin=origin;
-    d.dataset.in=origin;
-    d.tabIndex=0;
-    d.style.top = `${rand(12, 86)}%`;
-    d.style.setProperty('--dur', `${rand(6, 12).toFixed(1)}s`);
-    d.style.animationDelay = `${(-1*rand(0,6)).toFixed(2)}s`;
-
-    const span=document.createElement('span');
-    span.className='icon'; span.textContent='🐟';
-    d.appendChild(span);
-
-    d.addEventListener('click',()=>toggleMove(d));
-    tank.appendChild(d);
-  }
-}
-
-function newProblem(){
-  if(make10){
-    const t=10;S=t;A=randInt(0,t);B=t-A;targetLabel.textContent='10';
-  }else{
-    if(level===1){S=randInt(0,Math.min(10,maxN));}
-    else{S=randInt(10,Math.min(20,maxN));}
-    A=randInt(0,S);B=S-A;
-    targetLabel.textContent=`${A}+${B}`;
-  }
-  numAEl.textContent=A;numBEl.textContent=B;answerNum.textContent='?';
-  eqPill.textContent=`${A}+${B}=?`;
-  buildFish(tankA,A,'A');  // A 색
-  buildFish(tankB,B,'B');  // B 색
-  net.innerHTML='<span class="label">Answer Tank</span>';
-  updateCounters();
-  speakQuestion(A,B);
-}
-
-function toggleMove(node){
-  const inNet = node.parentElement===net;
-  if(inNet){
-    whooshSound();
-    const origin=node.dataset.origin==='A'?tankA:tankB;
-    node.classList.remove('caught'); node.classList.add('swim');
-    origin.appendChild(node);
-    node.dataset.in=node.dataset.origin;
-    node.style.top = `${rand(12,86)}%`;
-    node.style.setProperty('--dur', `${rand(6,12).toFixed(1)}s`);
-  }else{
-    catchSound();
-    node.classList.remove('swim'); node.classList.add('caught');
-    node.style.top = ''; node.style.left = '';
-    net.appendChild(node);
-    node.dataset.in='NET';
-  }
-  updateCounters();
-  checkSolved();
-}
-
-function countFishIn(el){return el.querySelectorAll('.fish').length;}
-function updateCounters(){
-  countA.textContent=`A: ${countFishIn(tankA)} fish`;
-  countB.textContent=`B: ${countFishIn(tankB)} fish`;
-  const c=countFishIn(net);
-  countAns.textContent=`Fish in net: ${c}`;
-  answerNum.textContent=c===0?'?':c;
-}
-
-let solved=false, solveTimer=null;
-function checkSolved(){
-  const c=countFishIn(net);
-  if(c===A+B){
-    if(!solved){
-      solved=true;
-      celebrate();
-      clearTimeout(solveTimer);
-      solveTimer = setTimeout(()=>{solved=false; newProblem();}, 3000); // 3초 뒤 다음 문제
+  function ensureAudio(){
+    if(!audioCtx){
+      const AC=window.AudioContext||window.webkitAudioContext;
+      if(AC){ audioCtx=new AC(); }
     }
-  }else{
-    solved=false;
-    clearTimeout(solveTimer);
   }
-}
-function celebrate(){
-  winSound();
-  eqPill.textContent=`${A}+${B}=${A+B}`;
-  const r=answerNum.getBoundingClientRect();
-  for(let i=0;i<14;i++){
-    const s=document.createElement('div');s.className='sparkle';
-    const ang=Math.random()*Math.PI*2,dist=50+Math.random()*50;
-    s.style.left=`${r.left+r.width/2}px`;s.style.top=`${r.top+r.height/2}px`;
-    s.style.setProperty('--dx',`${Math.cos(ang)*dist}px`);
-    s.style.setProperty('--dy',`${Math.sin(ang)*dist}px`);
-    document.body.appendChild(s);setTimeout(()=>s.remove(),700);
+  // 브라우저 제약 회피: 첫 클릭시 오디오 컨텍스트 예열
+  document.addEventListener('pointerdown', function once(){
+    ensureAudio();
+    if(audioCtx && audioCtx.state==='suspended'){ audioCtx.resume?.(); }
+    document.removeEventListener('pointerdown', once);
+  }, {passive:true});
+
+  function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+  function rand(min,max){return Math.random()*(max-min)+min;}
+
+  /* ---- 사운드 ---- */
+  function catchSound(){
+    ensureAudio(); if(!audioCtx) return;
+    const now=audioCtx.currentTime;
+    const pan=audioCtx.createStereoPanner?audioCtx.createStereoPanner():null;
+    const delay=audioCtx.createDelay?audioCtx.createDelay(0.25):null;
+    const fb=audioCtx.createGain?audioCtx.createGain():null;
+    if(pan) pan.pan.value=(Math.random()*2-1)*0.6;
+    if(delay){ delay.delayTime.value=0.07+Math.random()*0.03; }
+    if(fb){ fb.gain.value=0.18; delay.connect(fb); fb.connect(delay); }
+    const mix=audioCtx.createGain(); mix.gain.value=1.0;
+    (pan?mix.connect(pan):mix).connect(audioCtx.destination);
+    if(delay){ mix.connect(delay); delay.connect(pan?pan:mix); }
+
+    const v=Math.random();
+    if(v<0.34){
+      const noiseBuf=audioCtx.createBuffer(1, audioCtx.sampleRate*0.05, audioCtx.sampleRate);
+      const data=noiseBuf.getChannelData(0);
+      for(let i=0;i<data.length;i++){ data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2); }
+      const nsrc=audioCtx.createBufferSource(); nsrc.buffer=noiseBuf;
+      const nGain=audioCtx.createGain(); nGain.gain.setValueAtTime(0.12, now); nGain.gain.exponentialRampToValueAtTime(0.0001, now+0.05);
+      nsrc.connect(nGain).connect(mix); nsrc.start(now);
+      const o=audioCtx.createOscillator(); o.type='sine';
+      const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.22, now+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.18);
+      const startF=randInt(320,420), endF=startF*1.9;
+      o.frequency.setValueAtTime(startF, now); o.frequency.exponentialRampToValueAtTime(endF, now+0.16);
+      o.connect(g).connect(mix); o.start(now); o.stop(now+0.2);
+    }else if(v<0.67){
+      const o1=audioCtx.createOscillator(), g1=audioCtx.createGain();
+      o1.type='triangle'; o1.frequency.setValueAtTime(randInt(500,650), now);
+      g1.gain.setValueAtTime(0.0001, now); g1.gain.exponentialRampToValueAtTime(0.22, now+0.02);
+      g1.gain.exponentialRampToValueAtTime(0.0001, now+0.12);
+      o1.connect(g1).connect(mix); o1.start(now); o1.stop(now+0.14);
+      const t2=now+0.08;
+      const o2=audioCtx.createOscillator(), g2=audioCtx.createGain();
+      o2.type='sine'; o2.frequency.setValueAtTime(randInt(700,900), t2);
+      g2.gain.setValueAtTime(0.0001, t2); g2.gain.exponentialRampToValueAtTime(0.18, t2+0.02);
+      g2.gain.exponentialRampToValueAtTime(0.0001, t2+0.12);
+      o2.connect(g2).connect(mix); o2.start(t2); o2.stop(t2+0.14);
+    }else{
+      const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+      const bp=audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=800; bp.Q.value=6;
+      o.type='sine';
+      o.frequency.setValueAtTime(1000, now);
+      o.frequency.exponentialRampToValueAtTime(360, now+0.22);
+      g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(0.26, now+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.22);
+      o.connect(bp).connect(g).connect(mix); o.start(now); o.stop(now+0.24);
+    }
   }
-}
+  function whooshSound(){
+    ensureAudio(); if(!audioCtx) return;
+    const now=audioCtx.currentTime;
+    const o=audioCtx.createOscillator(); o.type='triangle';
+    const g=audioCtx.createGain(); g.gain.setValueAtTime(0.0001, now);
+    g.gain.exponentialRampToValueAtTime(0.12, now+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, now+0.16);
+    o.frequency.setValueAtTime(700, now);
+    o.frequency.exponentialRampToValueAtTime(300, now+0.12);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(now); o.stop(now+0.18);
+  }
+  function winSound(){
+    ensureAudio(); if(!audioCtx) return;
+    const notes=[523,659,784,1046],now=audioCtx.currentTime;
+    notes.forEach((f,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+      o.type='triangle';o.frequency.value=f;
+      const t=now+i*0.09;g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(0.25,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.08);
+      o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+0.12);
+    });
+  }
 
-newBtn.addEventListener('click',newProblem);
-make10Btn.addEventListener('click',()=>{make10=!make10;make10Btn.classList.toggle('primary',make10);newProblem();});
-rangeSel.addEventListener('change',()=>{maxN=parseInt(rangeSel.value,10);newProblem();});
-levelSel.addEventListener('change',()=>{level=parseInt(levelSel.value,10);newProblem();});
-voiceBtn.addEventListener('click',()=>{
-  voiceOn=!voiceOn;
-  voiceBtn.textContent=voiceOn?'🗣️ Voice On':'🤐 Voice Off';
-  if(!voiceOn&&window.speechSynthesis){try{window.speechSynthesis.cancel();}catch(e){}}
-});
-document.addEventListener('click',function once(){ensureAudio();if(window.speechSynthesis){prepareVoices();}document.removeEventListener('click',once);});
-newProblem();
+  function buildFish(tank,n,origin){
+    tank.querySelectorAll('.fish').forEach(f=>f.remove());
+    for(let i=0;i<n;i++){
+      const d=document.createElement('div');
+      d.className=`fish swim ${origin==='A'?'fishA':'fishB'}`;
+      d.dataset.origin=origin;
+      d.style.top = `${rand(12, 86)}%`;
+      d.style.setProperty('--dur', `${rand(6, 12).toFixed(1)}s`);
+      d.style.animationDelay = `${(-1*rand(0,6)).toFixed(2)}s`;
+      const span=document.createElement('span'); span.className='icon'; span.textContent='🐟';
+      d.appendChild(span);
+      d.addEventListener('click',()=>toggleMove(d));
+      tank.appendChild(d);
+    }
+  }
 
+  function toggleMove(node){
+    const inNet = node.parentElement===net;
+    if(inNet){
+      whooshSound();
+      const origin = node.dataset.origin==='A'?tankA:tankB;
+      node.classList.remove('caught'); node.classList.add('swim');
+      // 연못 모드: 절대배치로 되돌림
+      node.style.top = `${rand(12,86)}%`;
+      node.style.left = ''; // swimX에서 제어
+      origin.appendChild(node);
+    }else{
+      catchSound();
+      node.classList.remove('swim');
+      // ✅ 답 어항 모드: Grid 아이템이 되도록 스타일 리셋
+      node.style.top=''; node.style.left='';
+      node.classList.add('caught');
+      net.appendChild(node);
+    }
+    updateCounters();
+    checkSolved();
+  }
+
+  function countFishIn(el){return el.querySelectorAll('.fish').length;}
+  function updateCounters(){
+    const cA=countFishIn(tankA), cB=countFishIn(tankB), cN=countFishIn(net);
+    countA.textContent=`A: ${cA} fish`;
+    countB.textContent=`B: ${cB} fish`;
+    countAns.textContent=`Fish in tank: ${cN}`;
+    answerNum.textContent=cN===0?'?':cN;
+  }
+
+  let solved=false, solveTimer=null;
+  function celebrate(){
+    winSound();
+    const r=answerNum.getBoundingClientRect();
+    for(let i=0;i<14;i++){
+      const s=document.createElement('div');s.className='sparkle';
+      const ang=Math.random()*Math.PI*2,dist=50+Math.random()*50;
+      s.style.left=`${r.left+r.width/2}px`;s.style.top=`${r.top+r.height/2}px`;
+      s.style.setProperty('--dx',`${Math.cos(ang)*dist}px`);
+      s.style.setProperty('--dy',`${Math.sin(ang)*dist}px`);
+      document.body.appendChild(s);setTimeout(()=>s.remove(),700);
+    }
+  }
+
+  function checkSolved(){
+    const c=countFishIn(net);
+    if(c===A+B){
+      if(!solved){
+        solved=true;
+        eqPill.textContent=`${A}+${B}=${A+B}`;
+        celebrate();
+        clearTimeout(solveTimer);
+        solveTimer=setTimeout(()=>{solved=false; newProblem();}, 3000);
+      }
+    }else{
+      solved=false;
+      eqPill.textContent=`${A}+${B}=?`;
+      clearTimeout(solveTimer);
+    }
+  }
+
+  function newProblem(){
+    do{
+      if(make10){ S=10; A=randInt(0,S); B=S-A; targetLabel.textContent='10'; }
+      else{
+        if(level==1){ S=randInt(0,Math.min(10,maxN)); }
+        else{ S=randInt(10,Math.min(20,maxN)); }
+        A=randInt(0,S); B=S-A; targetLabel.textContent=`${A}+${B}`;
+      }
+    }while(A===0 && B===0); // 0+0 방지
+
+    numAEl.textContent=A; numBEl.textContent=B; answerNum.textContent='?';
+    eqPill.textContent=`${A}+${B}=?`;
+    buildFish(tankA,A,'A'); buildFish(tankB,B,'B');
+    net.innerHTML='<span class="label">Answer Tank</span>';
+    updateCounters();
+  }
+
+  /* UI 이벤트 */
+  newBtn.addEventListener('click', newProblem);
+  make10Btn.addEventListener('click', ()=>{make10=!make10; make10Btn.classList.toggle('primary',make10); newProblem();});
+  rangeSel.addEventListener('change', ()=>{maxN=parseInt(rangeSel.value,10); newProblem();});
+  levelSel.addEventListener('change', ()=>{level=parseInt(levelSel.value,10); newProblem();});
+
+  newProblem();
 })();
 </script>
 </body>
